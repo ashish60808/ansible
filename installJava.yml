@@ -1,0 +1,16 @@
+- name: Setup JDK 11 on Centos
+  hosts: all
+  tasks:
+    - name: Simple GET operation
+      aws_s3:
+        bucket: ansible-svc-pkg
+        object: /jdk-11.0.11_linux-x64_bin.rpm
+        dest: /tmp/jdk-11.0.11_linux-x64_bin.rpm
+        mode: get
+    - name: Install package
+      yum:
+        name: /tmp/jdk-11.0.11_linux-x64_bin.rpm
+        state: present
+      vars:
+        ansible_python_interpreter: /usr/bin/python
+      become: true
